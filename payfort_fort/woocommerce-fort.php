@@ -322,8 +322,8 @@ endif;
 
                 $shaString = $this->request_sha . $shaString . $this->request_sha;
                 $signature = hash($this->hash_algorithm ,$shaString);
-                
-                if ($this->sandbox_mode){
+
+                if ($this->sandbox_mode == "yes"){
                     $gatewayUrl = 'https://sbcheckout.payfort.com/FortAPI/paymentPage';
                 }
                 else{
