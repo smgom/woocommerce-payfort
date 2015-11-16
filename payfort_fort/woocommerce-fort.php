@@ -43,8 +43,8 @@ function woocommerce_fort(){
             $this->hash_algorithm = $this->get_option('hash_algorithm');
             
             // Logs
-            if ($this->debug == 'yes'){
-                $this->log = $woocommerce->logger();
+            if ($this->sandbox_mode == 'yes'){
+                //$this->log = $woocommerce->logger();
             }
             // Actions
             add_action('woocommerce_receipt_' . $this->id, array($this, 'receipt_page'));
@@ -64,11 +64,6 @@ function woocommerce_fort(){
             wp_enqueue_script( 'fortjs-config',  plugins_url('payfort_fort/assets/js/config.js'), array(), WC_VERSION, true );
             wp_enqueue_script( 'fortjs-checkout',  plugins_url('payfort_fort/assets/js/checkout.js'), array(), WC_VERSION, true );
 
-            wp_localize_script( 'fortjs-config', 'WooCommerceFORTParams', array(
-                'key' => $this->test_mode == 'yes'? $this->test_open_key : $this->live_open_key,
-                'amount' => $woocommerce->cart->total * 100,
-                'currency' => get_woocommerce_currency()
-            ));
         }
         /**
          * Check if this gateway is enabled and available in the user's currency
