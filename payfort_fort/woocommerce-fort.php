@@ -41,6 +41,9 @@ function woocommerce_fort(){
             $this->access_code = $this->get_option('access_code');
             $this->language = $this->get_option('language');
             $this->hash_algorithm = $this->get_option('hash_algorithm');
+            $this->enable_sadad = $this->get_option('enable_sadad');
+            $this->enable_naps = $this->get_option('enable_naps');
+            $this->enable_credit_card = $this->get_option('enable_credit_card');
             
             // Logs
             if ($this->sandbox_mode == 'yes'){
@@ -93,6 +96,16 @@ function woocommerce_fort(){
             // Generate the HTML For the settings form.
             $this->generate_settings_html();
 ?>
+        <script>
+            jQuery(document).ready(function(){
+                jQuery('[name=save]').click(function(){
+                    if (!jQuery('#woocommerce_payfort_enable_credit_card').is(':checked') && !jQuery('#woocommerce_payfort_enable_sadad').is(':checked')){
+                        alert('Please enable at least 1 payment method!');
+                        return false;
+                    }
+                })
+            });
+        </script>
         <tr valign="top">
 			<th class="titledesc" scope="row">
 				<label for="woocommerce_fort_host_to_host_url">Host to Host URL</label>
@@ -200,6 +213,24 @@ endif;
                     'desc_tip'      => true,
                     'placeholder' => ''
                 ),
+                'enable_credit_card' => array(
+                    'title' => __( 'Credit \ Debit Card', 'woocommerce' ),
+                    'type' => 'checkbox',
+                    'label' => __( 'Enable Credit \ Debit Card Payment Method', 'woocommerce' ),
+                    'default' => 'yes'
+                ),
+                'enable_sadad' => array(
+                    'title' => __( 'SADAD', 'woocommerce' ),
+                    'type' => 'checkbox',
+                    'label' => __( 'Enable SADAD Payment Method', 'woocommerce' ),
+                    'default' => 'no'
+                ),
+                // 'enable_naps' => array(
+                    // 'title' => __( 'NAPS', 'woocommerce' ),
+                    // 'type' => 'checkbox',
+                    // 'label' => __( 'Enable NAPS Payment Method', 'woocommerce' ),
+                    // 'default' => 'no'
+                // ),
                 'sandbox_mode' => array(
                     'title' => __( 'Sandbox mode', 'woocommerce' ),
                     'type' => 'checkbox',
@@ -279,9 +310,46 @@ endif;
                 
             }
 
+            
+            if ($this->enable_sadad == "yes"){
+                echo preg_replace('/^\s+|\n|\r|\s+$/m', '','<script>
+                        jQuery(".payment_method_payfort").eq(0).after(\'
+                        <li class="payment_method_payfort">
+                            <input id="payment_method_payfort" data-method="SADAD" type="radio" class="input-radio" name="payment_method" value="payfort" data-order_button_text="">
+                            <label onclick="setTimeout(function(){jQuery(\\\'[data-method=SADAD]\\\').click().focus();},100)" for="payment_method_payfort">
+                                SADAD <img src="'. get_site_url(). '/wp-content/plugins/payfort_fort/SADAD-logo.png" alt="SADAD">
+                            </label>
+                            <div class="payment_box payment_method_payfort">
+                                <p>Pay for your items with using SADAD payment method</p>
+                            </div>
+                        </li>\');
+                    </script>');
+            }
+
+            // if ($this->enable_naps == "yes"){
+                // echo preg_replace('/^\s+|\n|\r|\s+$/m', '','<script>
+                        // jQuery(".payment_method_payfort").eq(0).after(\'\
+                        // <li class="payment_method_payfort_naps">\
+                            // <input id="payment_method_payfort" data-method="NAPS" type="radio" class="input-radio" name="payment_method" value="payfort" data-order_button_text="">\
+                            // <label for="payment_method_payfort">\
+                                // NAPS <img src="http://localhost/wordpress/wp-content/plugins/payfort_fort/qpay-logo.png" alt="NAPS">\
+                            // </label>\
+                            // <div class="payment_box payment_method_payfort">\
+                                // <p>Pay for your items with using NAPS payment method</p>\
+                            // </div>\
+                        // </li>\');
+                    // </script>');
+            // }
+            
+            if ($this->enable_credit_card != "yes"){
+                echo preg_replace('/^\s+|\n|\r|\s+$/m', '','<script>
+                        jQuery(".payment_method_payfort").eq(0).remove();
+                    </script>');
+            }
             if ($this->description) {
                 echo "<p>".$this->description."</p>";
             }
+            
 
         }
         /**
@@ -308,6 +376,21 @@ endif;
                     'return_url'            => get_site_url() . '/checkout',
                 );
 
+                $isSADAD = isset($_POST['SADAD']) ? $_POST['SADAD'] : false;
+                $isNaps = isset($_POST['NAPS']) ? $_POST['NAPS'] : false;
+
+                if ($isSADAD == "true"){
+                    $postData['payment_option'] = 'SADAD';
+                    update_post_meta($order->id, '_payment_method_title', 'SADAD');
+                    update_post_meta($order->id, '_payment_method', 'SADAD');
+                    //$postData['currency'] = 'SAR';
+                }
+                else if ($isNaps == "true"){
+                    $postData['payment_option'] = 'NAPS';
+                    $postData['order_description'] = $order_id;
+                    //$postData['currency'] = 'QAR';
+                }
+                
                 //calculate request signature
                 $shaString = '';
                 ksort($postData);
@@ -317,7 +400,7 @@ endif;
 
                 $shaString = $this->request_sha . $shaString . $this->request_sha;
                 $signature = hash($this->hash_algorithm ,$shaString);
-
+                
                 if ($this->sandbox_mode == "yes"){
                     $gatewayUrl = 'https://sbcheckout.payfort.com/FortAPI/paymentPage';
                 }
