@@ -8,7 +8,8 @@ Author: Payfort
 Author URI: https://www.payfort.com
 License: Under GPL2
  */
-if ( ! defined( 'ABSPATH' ) ) exit; // Exit if accessed directly
+if ( ! defined( 'ABSPATH' ) ) exit;    
+
 /* Enable automatic updates to this plugin
 ----------------------------------------------------------- */
 add_filter('auto_update_plugin', '__return_true');
@@ -57,6 +58,7 @@ function woocommerce_fort(){
             if (!$this->is_valid_for_use()){
                 $this->enabled = false;
             }
+            $this->process_response();
         }
         function payment_scripts() {
             global $woocommerce;
@@ -99,7 +101,7 @@ function woocommerce_fort(){
         <script>
             jQuery(document).ready(function(){
                 jQuery('[name=save]').click(function(){
-                    if (!jQuery('#woocommerce_payfort_enable_credit_card').is(':checked') && !jQuery('#woocommerce_payfort_enable_sadad').is(':checked')){
+                    if (!jQuery('#woocommerce_payfort_enable_credit_card').is(':checked') && !jQuery('#woocommerce_payfort_enable_sadad').is(':checked') && !jQuery('#woocommerce_payfort_enable_naps').is(':checked')){
                         alert('Please enable at least 1 payment method!');
                         return false;
                     }
@@ -114,7 +116,7 @@ function woocommerce_fort(){
 			<td class="forminp">
 				<fieldset>
 					<legend class="screen-reader-text"><span>Host to Host URL</span></legend>
-					<input type="text" readonly="readonly" placeholder="" value="<?php echo get_site_url() . '/checkout';?>" style="" id="woocommerce_fort_host_to_host_url" name="woocommerce_fort_host_to_host_url" class="input-text regular-input ">
+					<input type="text" readonly="readonly" placeholder="" value="<?php echo get_site_url() . '/index.php?payfort_fort=woocommerce-fort&h2h=1';?>" style="" id="woocommerce_fort_host_to_host_url" name="woocommerce_fort_host_to_host_url" class="input-text regular-input ">
 				</fieldset>
 			</td>
 		</tr>
@@ -225,12 +227,12 @@ endif;
                     'label' => __( 'Enable SADAD Payment Method', 'woocommerce' ),
                     'default' => 'no'
                 ),
-                // 'enable_naps' => array(
-                    // 'title' => __( 'NAPS', 'woocommerce' ),
-                    // 'type' => 'checkbox',
-                    // 'label' => __( 'Enable NAPS Payment Method', 'woocommerce' ),
-                    // 'default' => 'no'
-                // ),
+                'enable_naps' => array(
+                    'title' => __( 'NAPS', 'woocommerce' ),
+                    'type' => 'checkbox',
+                    'label' => __( 'Enable NAPS Payment Method', 'woocommerce' ),
+                    'default' => 'no'
+                ),
                 'sandbox_mode' => array(
                     'title' => __( 'Sandbox mode', 'woocommerce' ),
                     'type' => 'checkbox',
@@ -239,27 +241,20 @@ endif;
                 )
             );
         }
-
-        /**
-         * Generate the credit card payment form
-         *
-         * @access public
-         * @param none
-         * @return string
-         */
-        function payment_fields() {
-            // Access the global object
-
+        
+        public function process_response(){
             global $woocommerce;
-            
-            if (isset($_GET['response_code']) && !isset($_GET['wc-ajax']) && isset($_GET['merchant_reference'])){
-                $order = new WC_Order($_GET['merchant_reference']);
+            $fortParams = array_merge($_GET,$_POST);
+            if (isset($fortParams['response_code']) && !isset($fortParams['wc-ajax']) && isset($fortParams['merchant_reference'])){
+                $order = new WC_Order($fortParams['merchant_reference']);
                 $success = false;
-                $params = $_GET;
+                $params = $fortParams;
                 $hashString = '';
-                $signature = $_GET['signature'];
+                $signature = $fortParams['signature'];
                 unset($params['signature']);
                 unset($params['wc-ajax']);
+                unset($params['h2h']);
+                unset($params['payfort_fort']);
                 ksort($params);
                 
                 foreach ($params as $k=>$v){
@@ -287,7 +282,8 @@ endif;
                     }
                     else{
                         $success = true;
-                        $order->payment_complete();
+                        //$order->payment_complete();
+                        $order->update_status('processing');
                         // return array(
                             // 'result' => 'success',
                             // 'redirect' => $this->get_return_url( $order )
@@ -308,9 +304,19 @@ endif;
                     }
                 }
                 
-            }
-
-            
+            }    
+        }
+        
+        /**
+         * Generate the credit card payment form
+         *
+         * @access public
+         * @param none
+         * @return string
+         */
+        function payment_fields() {
+            $this->process_response();
+            // Access the global object            
             if ($this->enable_sadad == "yes"){
                 echo preg_replace('/^\s+|\n|\r|\s+$/m', '','<script>
                         jQuery(".payment_method_payfort").eq(0).after(\'
@@ -326,20 +332,20 @@ endif;
                     </script>');
             }
 
-            // if ($this->enable_naps == "yes"){
-                // echo preg_replace('/^\s+|\n|\r|\s+$/m', '','<script>
-                        // jQuery(".payment_method_payfort").eq(0).after(\'\
-                        // <li class="payment_method_payfort_naps">\
-                            // <input id="payment_method_payfort" data-method="NAPS" type="radio" class="input-radio" name="payment_method" value="payfort" data-order_button_text="">\
-                            // <label for="payment_method_payfort">\
-                                // NAPS <img src="http://localhost/wordpress/wp-content/plugins/payfort_fort/qpay-logo.png" alt="NAPS">\
-                            // </label>\
-                            // <div class="payment_box payment_method_payfort">\
-                                // <p>Pay for your items with using NAPS payment method</p>\
-                            // </div>\
-                        // </li>\');
-                    // </script>');
-            // }
+            if ($this->enable_naps == "yes"){
+                echo preg_replace('/^\s+|\n|\r|\s+$/m', '','<script>
+                        jQuery(".payment_method_payfort").eq(0).after(\'\
+                        <li class="payment_method_payfort_naps">\
+                            <input id="payment_method_payfort" data-method="NAPS" type="radio" class="input-radio" name="payment_method" value="payfort" data-order_button_text="">\
+                            <label onclick="setTimeout(function(){jQuery(\\\'[data-method=NAPS]\\\').click().focus();},100)" for="payment_method_payfort">\
+                                NAPS <img src="'. get_site_url(). '/wp-content/plugins/payfort_fort/qpay-logo.png" alt="NAPS">\
+                            </label>\
+                            <div class="payment_box payment_method_payfort">\
+                                <p>Pay for your items with using NAPS payment method</p>\
+                            </div>\
+                        </li>\');
+                    </script>');
+            }
             
             if ($this->enable_credit_card != "yes"){
                 echo preg_replace('/^\s+|\n|\r|\s+$/m', '','<script>
@@ -383,12 +389,12 @@ endif;
                     $postData['payment_option'] = 'SADAD';
                     update_post_meta($order->id, '_payment_method_title', 'SADAD');
                     update_post_meta($order->id, '_payment_method', 'SADAD');
-                    //$postData['currency'] = 'SAR';
                 }
                 else if ($isNaps == "true"){
                     $postData['payment_option'] = 'NAPS';
-                    $postData['order_description'] = $order_id;
-                    //$postData['currency'] = 'QAR';
+                    $postData['order_description'] = $order_id;;
+                    update_post_meta($order->id, '_payment_method_title', 'NAPS');
+                    update_post_meta($order->id, '_payment_method', 'NAPS');
                 }
                 
                 //calculate request signature
@@ -430,4 +436,8 @@ endif;
         return $methods;
     }
     add_filter('woocommerce_payment_gateways', 'add_payfort_gateway');
+    if (isset($_GET['h2h'])){
+        $payfort_gateway = new WC_Gateway_Payfort();
+        $payfort_gateway->process_response(true);
+    }
 }
