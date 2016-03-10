@@ -1,0 +1,233 @@
+# Loco Gettext template
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: Payfort (FORT)\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: Thu Feb 25 2016 15:48:47 GMT+0200 (Jordan Standard Time)\n"
+"POT-Revision-Date: Thu Feb 25 2016 15:48:50 GMT+0200 (Jordan Standard Time)\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: \n"
+"Language-Team: \n"
+"Language: \n"
+"Plural-Forms: nplurals=INTEGER; plural=EXPRESSION\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"X-Poedit-SourceCharset: UTF-8\n"
+"X-Poedit-Basepath: .\n"
+"X-Poedit-SearchPath-0: ..\n"
+"X-Poedit-KeywordsList: _:1;gettext:1;dgettext:2;ngettext:1,2;dngettext:2,3;"
+"__:1;_e:1;_c:1;_n:1,2;_n_noop:1,2;_nc:1,2;__ngettext:1,2;__ngettext_noop:1,2;"
+"_x:1,2c;_ex:1,2c;_nx:1,2,4c;_nx_noop:1,2,3c;_n_js:1,2;_nx_js:1,2,3c;"
+"esc_attr__:1;esc_html__:1;esc_attr_e:1;esc_html_e:1;esc_attr_x:1,2c;"
+"esc_html_x:1,2c;comments_number_link:2,3;t:1;st:1;trans:1;transChoice:1,2\n"
+"X-Generator: Loco - https://localise.biz/"
+
+#. Name of the plugin
+msgid "Payfort (FORT)"
+msgstr ""
+
+#. Description of the plugin
+msgid ""
+"Payfort makes it really easy to start accepting online payments (credit &amp;"
+" debit cards) in the Middle East. Sign up is instant, at https://www.payfort."
+"com"
+msgstr ""
+
+#. URI of the plugin
+msgid "https://www.payfort.com"
+msgstr ""
+
+#. Author of the plugin
+msgid "Payfort"
+msgstr ""
+
+#: ../woocommerce-fort.php:102
+msgid "Payfort FORT"
+msgstr ""
+
+#: ../woocommerce-fort.php:103
+msgid ""
+"Please fill in the below section to start accepting payments on your site! "
+"You can find all the required information in your <a href=\"https://fort."
+"payfort.com/\" target=\"_blank\">Payfort FORT Dashboard</a>."
+msgstr ""
+
+#: ../woocommerce-fort.php:136
+msgid "Gateway Disabled"
+msgstr ""
+
+#: ../woocommerce-fort.php:136
+msgid "Payfort FORT does not support your store currency at this time."
+msgstr ""
+
+#: ../woocommerce-fort.php:149
+msgid "Enable/Disable"
+msgstr ""
+
+#: ../woocommerce-fort.php:151
+msgid "Enable the FORT gateway"
+msgstr ""
+
+#: ../woocommerce-fort.php:155
+msgid "Description"
+msgstr ""
+
+#: ../woocommerce-fort.php:157
+msgid "This is the description the user sees during checkout."
+msgstr ""
+
+#: ../woocommerce-fort.php:158
+msgid "Pay for your items with any Credit or Debit Card"
+msgstr ""
+
+#: ../woocommerce-fort.php:161
+msgid "Language"
+msgstr ""
+
+#: ../woocommerce-fort.php:164
+msgid "English (en)"
+msgstr ""
+
+#: ../woocommerce-fort.php:165
+msgid "Arabic (ar)"
+msgstr ""
+
+#: ../woocommerce-fort.php:167
+msgid "The language of the payment page."
+msgstr ""
+
+#: ../woocommerce-fort.php:173
+msgid "Merchant Identifier"
+msgstr ""
+
+#: ../woocommerce-fort.php:175
+msgid "Your MID, you can find in your FORT account security settings."
+msgstr ""
+
+#: ../woocommerce-fort.php:181
+msgid "Access Code"
+msgstr ""
+
+#: ../woocommerce-fort.php:183
+msgid "Your access code, you can find in your FORT account security settings."
+msgstr ""
+
+#: ../woocommerce-fort.php:189
+msgid "Command"
+msgstr ""
+
+#: ../woocommerce-fort.php:192
+msgid "AUTHORIZATION"
+msgstr ""
+
+#: ../woocommerce-fort.php:193
+msgid "PURCHASE"
+msgstr ""
+
+#: ../woocommerce-fort.php:195
+msgid "Order operation to be used in the payment page."
+msgstr ""
+
+#: ../woocommerce-fort.php:201
+msgid "SHA Algorithm"
+msgstr ""
+
+#: ../woocommerce-fort.php:204
+msgid "SHA1"
+msgstr ""
+
+#: ../woocommerce-fort.php:205
+msgid "SHA-256"
+msgstr ""
+
+#: ../woocommerce-fort.php:206
+msgid "SHA-512"
+msgstr ""
+
+#: ../woocommerce-fort.php:208
+msgid "The hash algorithm used for the signature"
+msgstr ""
+
+#: ../woocommerce-fort.php:214
+msgid "Request SHA phrase"
+msgstr ""
+
+#: ../woocommerce-fort.php:216
+msgid "Your request SHA phrase, you can find in your FORT account security settings."
+msgstr ""
+
+#: ../woocommerce-fort.php:222
+msgid "Response SHA phrase"
+msgstr ""
+
+#: ../woocommerce-fort.php:224
+msgid ""
+"Your response SHA phrase, you can find in your FORT account security "
+"settings."
+msgstr ""
+
+#: ../woocommerce-fort.php:230
+msgid "Credit \\ Debit Card"
+msgstr ""
+
+#: ../woocommerce-fort.php:232
+msgid "Enable Credit \\ Debit Card Payment Method"
+msgstr ""
+
+#: ../woocommerce-fort.php:236 ../woocommerce-fort.php:245
+msgid "Integration Type"
+msgstr ""
+
+#: ../woocommerce-fort.php:239
+msgid "Redirection"
+msgstr ""
+
+#: ../woocommerce-fort.php:240
+msgid "Merchant Page"
+msgstr ""
+
+#: ../woocommerce-fort.php:242
+msgid "Credit \\ Debit Card Integration Type"
+msgstr ""
+
+#: ../woocommerce-fort.php:248
+msgid "SADAD"
+msgstr ""
+
+#: ../woocommerce-fort.php:250
+msgid "Enable SADAD Payment Method"
+msgstr ""
+
+#: ../woocommerce-fort.php:254
+msgid "NAPS"
+msgstr ""
+
+#: ../woocommerce-fort.php:256
+msgid "Enable NAPS Payment Method"
+msgstr ""
+
+#: ../woocommerce-fort.php:260
+msgid "Sandbox mode"
+msgstr ""
+
+#: ../woocommerce-fort.php:262
+msgid "Enable Sandbox mode"
+msgstr ""
+
+#: ../woocommerce-fort.php:288 ../woocommerce-fort.php:297 ../woocommerce-fort.
+#: php:360 ../woocommerce-fort.php:371 ../woocommerce-fort.php:378 ../woocommerce-
+#: fort.php:388 ../woocommerce-fort.php:402 ../woocommerce-fort.php:638
+msgid "Error: "
+msgstr ""
+
+#: ../woocommerce-fort.php:288 ../woocommerce-fort.php:297 ../woocommerce-fort.
+#: php:360 ../woocommerce-fort.php:371 ../woocommerce-fort.php:378 ../woocommerce-
+#: fort.php:388 ../woocommerce-fort.php:402
+msgid "Could not complete order, please check your payment details and try again."
+msgstr ""
+
+#: ../woocommerce-fort.php:638
+msgid "you have canceled the payment, please try agian."
+msgstr ""
