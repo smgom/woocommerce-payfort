@@ -1,3 +1,9 @@
+/*jQuery('form.checkout').on('submit', function (e){
+   if(jQuery('input[name=payment_method]:checked').val() == 'payfort') {
+       e.preventDefault();
+       return fortFormHandler();
+   }
+});*/
 jQuery('form.checkout').on('checkout_place_order_payfort', function () {
     return fortFormHandler();
 });
@@ -20,7 +26,25 @@ function initPayfortFortPayment() {
         'dataType': 'json',
         'data': data,
         'async': false
-    }).done(function (data) {
+    }).complete(function (response) {
+        data = '';
+        if(response.form) {
+            data = response;
+        }
+        else{
+            var code = response.responseText;
+            var newstring = code.replace(/<script[^>]*>(.*)<\/script>/, "");
+            if (newstring.indexOf("<!--WC_START-->") >= 0) {
+                    newstring = newstring.split("<!--WC_START-->")[1];
+            }
+            if (newstring.indexOf("<!--WC_END-->") >= 0) {
+                    newstring = newstring.split("<!--WC_END-->")[0];
+            }
+            try {
+                data = jQuery.parseJSON( newstring );
+            }
+            catch(e) {}
+        }
         if (data.form) {
             jQuery('#payfort_payment_form').remove();
             jQuery('body').append(data.form);

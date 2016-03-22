@@ -626,7 +626,7 @@ endif;
                 }
                 
                 $form .= '<input type="submit" value="" id="payfort_payment_form_submit" name="submit2">';
-                $result = array('form' => $form, 'result' => 'success');
+                $result = array('result' => 'success', 'form' => $form);
                 if ( isset( $_POST['woocommerce_pay'] ) && isset( $_POST['_wpnonce'] ) && wp_verify_nonce( $_POST['_wpnonce'], 'woocommerce-pay' ) ) {
                     wp_send_json( $result );
                     exit;
