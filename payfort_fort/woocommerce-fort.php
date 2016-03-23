@@ -695,8 +695,8 @@ endif;
          */
         private function _convertFortAmount($amount, $currency_value, $currency_code) {
             $new_amount = 0;
-            $decimal_points = get_option( 'woocommerce_price_num_decimals' );
-            //$decimal_points = $this->_getCurrencyDecimalPoint($currency_code);
+            //$decimal_points = get_option( 'woocommerce_price_num_decimals' );
+            $decimal_points = $this->_getCurrencyDecimalPoint($currency_code);
             $new_amount = round($amount * $currency_value, $decimal_points) * (pow(10, $decimal_points));
             return $new_amount;
         }
