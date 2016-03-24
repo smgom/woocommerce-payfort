@@ -16,10 +16,10 @@ function initPayfortFortPayment() {
     var data = jQuery('form.checkout, form#order_review').serialize();
     data += '&SADAD=' + jQuery('[data-method=SADAD]').is(':checked');
     data += '&NAPS=' + jQuery('[data-method=NAPS]').is(':checked');
-    var ajaxUrl = '';
-    if(jQuery('form#order_review').size() == 0){
-        ajaxUrl = '?wc-ajax=checkout';
-    }
+    var ajaxUrl = wc_checkout_params.checkout_url;
+//    if(jQuery('form#order_review').size() == 0){
+//        ajaxUrl = '?wc-ajax=checkout';
+//    }
     jQuery.ajax({
         'url': ajaxUrl,
         'type': 'POST',

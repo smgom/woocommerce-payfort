@@ -66,9 +66,15 @@ function woocommerce_fort(){
             if (!$this->is_valid_for_use()){
                 $this->enabled = false;
             }
-            add_action('woocommerce_api_'.strtolower(get_class($this).'_process_response'), array(&$this, 'process_response'));
-            add_action('woocommerce_api_'.strtolower(get_class($this).'_merchantPageResponse'), array(&$this, 'merchantPageResponse'));
-            add_action('woocommerce_api_'.strtolower(get_class($this).'_merchantPageCancel'), array(&$this, 'merchantPageCancel'));
+            
+            //add_action('woocommerce_api_'.strtolower(get_class($this).'_process_response'), array(&$this, 'process_response'));
+            //add_action('woocommerce_api_'.strtolower(get_class($this).'_merchantPageResponse'), array(&$this, 'merchantPageResponse'));
+            //add_action('woocommerce_api_'.strtolower(get_class($this).'_merchantPageCancel'), array(&$this, 'merchantPageCancel'));
+            
+            add_action('woocommerce_wc_gateway_payfort_process_response', array(&$this, 'process_response'));
+            add_action('woocommerce_wc_gateway_payfort_merchantpageresponse', array(&$this, 'merchantPageResponse'));
+            add_action('woocommerce_wc_gateway_payfort_merchantpagecancel', array(&$this, 'merchantPageCancel'));
+            
         }
         
         function payment_scripts() {
@@ -511,7 +517,7 @@ endif;
         function payment_fields() {
             // Access the global object
             echo "<input type='hidden' id='payfort_integration_type' value='".$this->integration_type."'>";
-            echo "<input type='hidden' id='payfort_cancel_url' value='".get_site_url().'?wc-api=wc_gateway_payfort_merchantPageCancel'."'>";
+            echo "<input type='hidden' id='payfort_cancel_url' value='".get_site_url().'?wc-api=wc_gateway_payfort_merchantpagecancel'."'>";
             
             if ($this->enable_sadad == "yes"){
                 echo preg_replace('/^\s+|\n|\r|\s+$/m', '','<script>
@@ -740,7 +746,7 @@ endif;
                 'merchant_reference'    => $order_id,
                 'service_command'       => 'TOKENIZATION',
                 'language'              => $this->language,
-                'return_url'            => get_site_url().'?wc-api=wc_gateway_payfort_merchantPageResponse',//get_site_url() . '/checkout/merchantPageResponse',
+                'return_url'            => get_site_url().'?wc-api=wc_gateway_payfort_merchantpageresponse',//get_site_url() . '/checkout/merchantPageResponse',
             );
 
             //calculate request signature
@@ -776,4 +782,25 @@ endif;
         return $methods;
     }
     add_filter('woocommerce_payment_gateways', 'add_payfort_gateway');
+    
+    function woocommerce_payfort_fort_actions() {
+	if ( ! empty( $_GET['wc-api'] ) ) {
+            if($_GET['wc-api'] == 'wc_gateway_payfort_process_response') {
+                WC()->payment_gateways();
+                do_action( 'woocommerce_wc_gateway_payfort_process_response' );
+            }
+            if($_GET['wc-api'] == 'wc_gateway_payfort_merchantpageresponse') {
+                WC()->payment_gateways();
+                do_action( 'woocommerce_wc_gateway_payfort_merchantpageresponse' );
+            }
+            
+            if($_GET['wc-api'] == 'wc_gateway_payfort_merchantpagecancel') {
+                WC()->payment_gateways();
+                do_action( 'woocommerce_wc_gateway_payfort_merchantpagecancel' );
+            }
+            
+        }
+    }
+    
+    add_action( 'init', 'woocommerce_payfort_fort_actions' );
 }
