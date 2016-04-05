@@ -314,13 +314,8 @@ endif;
                             // 'redirect' => $this->get_return_url( $order )
                         // );
                         WC()->session->set( 'refresh_totals', true );
-                        if($response_integration_type == 'merchantPage') {
-                            echo '<script>window.top.location.href = "'.  $this->get_return_url( $order ) .'"</script>';
-                            exit;
-                        }
-                        else{
-                           header('location:'.$this->get_return_url( $order )); 
-                        }
+                        echo '<script>window.top.location.href = "'.  $this->get_return_url( $order ) .'"</script>';
+                        exit;
                         
                     }
                 }
@@ -334,14 +329,8 @@ endif;
                         // Use the old version
                         $woocommerce->add_error($message);
                     }
-                    if($response_integration_type == 'merchantPage') {
-                        echo '<script>window.top.location.href = "'.  site_url('checkout') .'"</script>';
-                        exit;
-                    }
-                    else{
-                        header('location:'.site_url('checkout')); 
-                    }
-                        
+                    echo '<script>window.top.location.href = "'.  esc_url($woocommerce->cart->get_checkout_url()) .'"</script>';
+                    exit; 
                 }
                 
             }    
@@ -437,7 +426,7 @@ endif;
                         // Use the old version
                         $woocommerce->add_error($message);
                     }
-                    echo '<script>window.top.location.href = "'.  site_url('checkout') .'"</script>';
+                    echo '<script>window.top.location.href = "'.  esc_url($woocommerce->cart->get_checkout_url()) .'"</script>';
                     exit;
                 }
             }
@@ -662,7 +651,7 @@ endif;
                 // Use the old version
                 $woocommerce->add_error($message);
             }
-            echo '<script>window.top.location.href = "'.  site_url('checkout') .'"</script>';
+            echo '<script>window.top.location.href = "'.  esc_url($woocommerce->cart->get_checkout_url()) .'"</script>';
             exit;
         }
         
