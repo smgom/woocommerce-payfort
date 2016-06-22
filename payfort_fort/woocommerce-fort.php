@@ -12,7 +12,7 @@ if ( ! defined( 'ABSPATH' ) ) exit;
 
 /* Enable automatic updates to this plugin
 ----------------------------------------------------------- */
-add_filter('auto_update_plugin', '__return_true');
+//add_filter('auto_update_plugin', '__return_true');
 /* Add a custom payment class to WC
 ------------------------------------------------------------ */
 add_action('plugins_loaded', 'woocommerce_fort', 0);
