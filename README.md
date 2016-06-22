@@ -12,7 +12,7 @@ Install
 
 3. Go to [Admin Panel] -> plugins , then activate Payfort (FORT) plugin.
 
-Configuratiuons
+Configurations
 ================
 
 To configure Payfort plugin go to Woocommerce -> Settings -> Checkout, 
