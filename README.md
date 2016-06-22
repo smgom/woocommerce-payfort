@@ -15,5 +15,5 @@ Install
 Configuratiuons
 ================
 
-To configure Payfort plugin go to Woocommerce -> Settings -> Checkout , 
+To configure Payfort plugin go to Woocommerce -> Settings -> Checkout, 
 On the Checkout Options Click on Payfort .
