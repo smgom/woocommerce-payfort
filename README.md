@@ -17,7 +17,7 @@ On the Checkout Options Click on Payfort .
 
 ## Upgrade
 
-- On upgradeing the plugin to version 1.2.0 you must change the host to host url on your account on the fort to the new one whiche is provided in the plugin admin panel.
+- On upgradeing the plugin to version 1.2.0 you must change the Host to Host URL on your account on the Fort to the new one which is provided in the plugin's admin panel.
 
 ## Changelog
 
@@ -26,7 +26,7 @@ On the Checkout Options Click on Payfort .
 - Added option for Gateway currency.
 - Added option for order placement.
 - Added merchant page 2.0
-- handle the fort response offline only (host to host response).
+- Handle the fort response offline only (host to host response).
 - Fixing some bugs.
 
 
