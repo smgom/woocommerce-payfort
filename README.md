@@ -23,7 +23,6 @@ On the Checkout Options Click on Payfort .
 
 `v1.2.0`
 - Rearrange payment methods configuration in admin panel.
-- Added option for Gateway currency.
 - Added option for order placement.
 - Added merchant page 2.0
 - Handle the fort response offline only (host to host response).
