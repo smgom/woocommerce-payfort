@@ -131,7 +131,7 @@ class Payfort_Fort_Config extends Payfort_Fort_Super
 
     public function isSandboxMode()
     {
-        if ($this->sandboxMode) {
+        if ($this->sandboxMode == 'yes') {
             return true;
         }
         return false;
