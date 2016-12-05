@@ -68,5 +68,5 @@ if(in_array('woocommerce/woocommerce.php', $active_plugins)){
 
            }
        }
-       add_action( 'init', 'woocommerce_payfort_fort_actions' );
+       add_action( 'init', 'woocommerce_payfort_fort_actions', 500 );
 }

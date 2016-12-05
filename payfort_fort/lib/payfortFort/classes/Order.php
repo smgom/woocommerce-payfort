@@ -41,7 +41,7 @@ class Payfort_Fort_Order extends Payfort_Fort_Super
 
     public function getOrderById($orderId)
     {
-        $order = new WC_Order($orderId);
+        $order = wc_get_order($orderId);
         return $order;
     }
 
@@ -103,6 +103,11 @@ class Payfort_Fort_Order extends Payfort_Fort_Super
         if(!empty($reason)) {
             $note .= " ($reason)";
         }
+        
+        //prevent send cancel order email
+        remove_action( 'woocommerce_order_status_pending_to_cancelled', array( 'WC_Emails', 'send_transactional_email' ) );
+        remove_action( 'woocommerce_order_status_pending_to_failed', array( 'WC_Emails', 'send_transactional_email' ) );
+        
         $this->order->cancel_order($note);
         $this->order->update_status( $status, $note );
         unset( WC()->session->order_awaiting_payment );
@@ -121,6 +126,11 @@ class Payfort_Fort_Order extends Payfort_Fort_Super
         if ($this->getStatusId() == $status) {
             return true;
         }
+        
+        //prevent send cancel order email
+        remove_action( 'woocommerce_order_status_pending_to_cancelled', array( 'WC_Emails', 'send_transactional_email' ) );
+        remove_action( 'woocommerce_order_status_pending_to_failed', array( 'WC_Emails', 'send_transactional_email' ) );
+        
         $this->order->cancel_order('Payment Cancelled');
         if($this->pfConfig->orderPlacementIsOnSuccess()) {
             $this->order->update_status( '', 'Hide Order' );
@@ -132,6 +142,9 @@ class Payfort_Fort_Order extends Payfort_Fort_Super
     {
         if ($this->getOrderId()) {
             $this->order->payment_complete();
+            if(isset($response_params['fort_id']) && $response_mode == 'offline') {
+                $this->order->add_order_note('Payfort payment successful<br/>Fort id: '.$response_params['fort_id']);
+            }
         }
         return true;
     }
