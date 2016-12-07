@@ -37,10 +37,6 @@ class WC_Gateway_Payfort extends Payfort_Fort_Super
         }
         $this->enable_credit_card  = $this->get_option('enable_credit_card') == 'yes' ? true : false;
 
-        // Logs
-        if ($this->sandbox_mode == 'yes') {
-            //$this->log = $woocommerce->logger();
-        }
         // Actions
         add_action('woocommerce_receipt_' . $this->id, array($this, 'receipt_page'));
         add_action('wp_enqueue_scripts', array($this, 'payment_scripts'));
