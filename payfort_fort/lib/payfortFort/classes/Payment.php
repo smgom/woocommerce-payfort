@@ -109,7 +109,7 @@ class Payfort_Fort_Payment extends Payfort_Fort_Super
             $paymentMethod = $this->pfOrder->getPaymentMethod();
             $this->pfHelper->log("Fort response parameters ($responseMode) for payment method ($paymentMethod) \n\n" . print_r($responseParams, 1));
 
-            $notIncludedParams = array('signature', 'wc-ajax', 'wc-api',  'payfort_fort', 'integration_type');
+            $notIncludedParams = array('signature', 'wc-ajax', 'wc-api',  'payfort_fort', 'integration_type', 'WordApp_launch', 'WordApp_mobile_site', 'WordApp_demo', 'WordApp_demo');
 
             $responseType          = $responseParams['response_message'];
             $signature             = $responseParams['signature'];

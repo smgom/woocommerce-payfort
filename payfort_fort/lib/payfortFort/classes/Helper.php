@@ -152,8 +152,8 @@ class Payfort_Fort_Helper extends Payfort_Fort_Super
 
     public function getGatewayHost()
     {
-        if ($this->isSandboxMode()) {
-            return $this->getGatewayProdHost();
+        if ($this->pfConfig->isSandboxMode()) {
+            return $this->getGatewaySandboxHost();
         }
         return $this->getGatewayProdHost();
     }
@@ -162,7 +162,7 @@ class Payfort_Fort_Helper extends Payfort_Fort_Super
     {
         $testMode = $this->pfConfig->isSandboxMode();
         if ($type == 'notificationApi') {
-            $gatewayUrl = $testMode ? $this->pfConfig->getGatewaySandboxHost() . 'FortAPI/paymentApi' : $this->pfConfig->getGatewayProdHost() . 'FortAPI/paymentApi';
+            $gatewayUrl = $testMode ?  'https://sbpaymentservices.payfort.com/FortAPI/paymentApi' :  'https://paymentservices.payfort.com/FortAPI/paymentApi';
         }
         else {
             $gatewayUrl = $testMode ? $this->pfConfig->getGatewaySandboxHost() . 'FortAPI/paymentPage' : $this->pfConfig->getGatewayProdHost() . 'FortAPI/paymentPage';
