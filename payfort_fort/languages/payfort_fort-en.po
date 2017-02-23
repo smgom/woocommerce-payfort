@@ -276,7 +276,7 @@ msgstr ""
 
 #: ../classes/class-woocommerce-fort.php:484
 msgid "text_card_number"
-msgstr "Card Numebr"
+msgstr "Card Number"
 
 #: ../classes/class-woocommerce-fort.php:488
 msgid "text_card_holder_name"
